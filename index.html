@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel='stylesheet' href='duotone.css'/>
+	<script id="2d-vertex-shader" type="x-shader/x-vertex">
+		attribute vec2 a_position;
+		varying highp vec2 pos;
+	  void main() {
+			pos = a_position/2.0 + 0.5;
+			pos.y = 1.0 - pos.y;
+	    gl_Position = vec4(a_position, 0, 1);
+	  }
+	</script>
+	<script id="2d-fragment-shader" type="x-shader/x-fragment">
+		varying highp vec2 pos;
+		uniform sampler2D texture;
+		uniform lowp vec4 color1;
+		uniform lowp vec4 color2;
+		
+		highp vec3 rgb2hsv(lowp vec3 c) {
+				highp vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+		    highp vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+		    highp vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+
+		    highp float d = q.x - min(q.w, q.y);
+		    highp float e = 1.0e-10;
+		    return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+		}
+		
+		void main() {
+			lowp vec4 rgba = texture2D(texture, pos);
+			highp vec3 hsv = rgb2hsv(rgba.xyz);
+			highp float value = hsv.z;
+			lowp vec4 color = color1 * value + color2 * (1.0 - value);
+			gl_FragColor = color;
+	    // gl_FragColor = vec4(pos.x, pos.y, 0, 1);
+	  }
+	</script>
+</head>
+<body>
+	<div id='main'>
+		<div id='toolbar'>
+			<div>
+				<div>
+					<input id="pickImage" type="file" name="pic" accept="image/*" onChange="pickedImage(this)"/>
+				</div>
+				<div id='download-cell'>
+					<a href="javascript:download()"><img src='download.svg'/></a>
+				</div>
+			</div>
+		</div>
+		<canvas id='canvas'></canvas>
+		<div id='downloadPopup' style='display: none'>
+			<img id='downloadImg'/>
+			<div class='hint'>Long-press to save</div>
+			<div class='button' onClick="document.getElementById('downloadPopup').style.display='none'">Done</div>
+		</div>
+	</div>
+		
+	<script src='images.js'></script>
+	<script src='hsv.js'></script>
+	<script src='duotone.js'></script>
+</body>
+</html>

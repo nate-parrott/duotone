@@ -1,0 +1,85 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+	height: 100%;
+	overflow: hidden;
+}
+
+#main {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+#main > #canvas {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
+#toolbar {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	display: table;
+	background-color: black;
+	color: white;
+	font-size: small;
+	font-weight: bold;
+	z-index: 100;
+	opacity: 0.6;
+}
+#toolbar > div {
+	display: table-row;
+}
+#toolbar > div > div {
+	display: table-cell;
+	vertical-align: middle;
+}
+#toolbar #download-cell {
+	width: 100%;
+	text-align: right;
+}
+#toolbar #download-cell img {
+	display: block;
+	height: 1.6em;
+	padding: 15px;
+}
+#toolbar input {
+	padding: 15px;
+	font-weight: bold;
+}
+
+#downloadPopup {
+	position: absolute;
+	top: 20vh;
+	left: 10vw;
+	width: 80vw;
+	height: 60vh;
+	border: 2px solid white;
+	overflow: hidden;
+}
+#downloadPopup img {
+	width: 100%;
+	height: 100%;
+}
+#downloadPopup .hint, #downloadPopup .button {
+	position: absolute;
+	box-sizing: border-box;
+	left: 0;
+	width: 100%;
+	padding: 5px;
+	background-color: rgba(0,0,0,0.5);
+	color: white;
+	font-weight: bold;
+	font-size: small;
+	text-align: center;
+}
+#downloadPopup .hint {
+	top: 0;
+}
+#downloadPopup .button {
+	bottom: 0;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
